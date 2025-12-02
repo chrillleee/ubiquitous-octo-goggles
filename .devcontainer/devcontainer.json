@@ -13,8 +13,14 @@
 		},
 		"ghcr.io/devcontainers/features/kubectl-helm-minikube:1": {},
 		"ghcr.io/devcontainers-extra/features/kubectx-kubens:1": {}
-	}
-	
+	},
+	"mounts": [
+    	"source=${localEnv:SSH_AUTH_SOCK},target=/ssh-agent,type=bind"
+ 	 ],
+	"remoteEnv": {
+		"SSH_AUTH_SOCK": "/ssh-agent"
+	},
+	"postStartCommand": "ssh-add -l || echo 'No SSH keys found in agent'",
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [],
 
@@ -22,7 +28,7 @@
 	// "postCreateCommand": "kubectl version",
 
 	// Use 'postStartCommand' to run commands after the container is created like starting minikube.
-	// "postStartCommand": "nohup bash -c 'minikube start &' > minikube.log 2>&1",
+	"postStartCommand": "nohup bash -c 'minikube start &' > minikube.log 2>&1"
 
 	// Configure tool-specific properties.
 	// "customizations": {},
