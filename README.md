@@ -19,5 +19,9 @@ In your devcontainer.json, forward the SSH agent so the container can use your k
 	"remoteEnv": {
 		"SSH_AUTH_SOCK": "/ssh-agent"
 	},
-    "postStartCommand": "ssh-add -l || echo 'No SSH keys found in agent'",
+	"postStartCommand": [
+		"sh",
+		"-c",
+		"ssh-add -l || echo 'No SSH keys found in agent'; git config --global gpg.format ssh; git config --global user.signingkey \"$(ssh-add -L | head -n1)\"; git config --global commit.gpgsign true"
+	]
 ```
